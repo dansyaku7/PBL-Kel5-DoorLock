@@ -1,7 +1,7 @@
 #include <ESP8266WiFi.h>
 #include <SPI.h>
 #include <MFRC522.h>
-//akwokwaoakw
+
 
 #define SS_PIN D4
 #define RST_PIN D3
