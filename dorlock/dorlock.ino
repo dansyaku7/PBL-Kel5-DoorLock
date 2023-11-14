@@ -2,7 +2,6 @@
 #include <SPI.h>
 #include <MFRC522.h>
 
-
 #define SS_PIN D4
 #define RST_PIN D3
 #define LED_G D1
