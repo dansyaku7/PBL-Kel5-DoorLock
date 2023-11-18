@@ -1,7 +1,7 @@
 #include <ESP8266WiFi.h>
 #include <SPI.h>
 #include <MFRC522.h>
-#kelompok5
+
 
 #define SS_PIN D4
 #define RST_PIN D3
@@ -52,7 +52,8 @@ void loop() {
   Serial.print("Message : ");
   content.toUpperCase();
 
-  if (content.substring(1) == "C5 94 7C 69") { //change here the UID of the card/cards that you want to give access
+  if (content.substring(1) == "5B 4D 48 21") { //change here the UID of the card/cards that you want to give access
+    Serial.println("Kelompok 5");
     Serial.println("Authorized access");
     Serial.println();
     delay(500);
