@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <title>Smart Doorlock Home</title>
+  <style>
+    .navbar {
+      background-color: #4CAF50;
+    }
+    .navbar a {
+      color: white;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-size: 17px;
+    }
+    .navbar a:hover {
+      background: #ddd;
+      color: black;
+    }
+    .navbar a.active {
+      background-color: #4CAF50;
+      color: white;
+    }
+    .jumbotron {
+      background-image: url('https://images.unsplash.com/photo-1521747116042-5a810fda9664');
+      background-size: cover;
+      height: 500px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-shadow: 2px 2px #000000;
+    }
+    .jumbotron h1 {
+      font-size: 5rem;
+      margin-bottom: 0;
+    }
+    .jumbotron p {
+      font-size: 2rem;
+      margin-top: 0;
+    }
+    .features {
+      background-color: #f2f2f2;
+      padding: 50px 0;
+    }
+    .features h2 {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    .feature {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 50px;
+    }
+    .feature img {
+      width: 200px;
+      margin-bottom: 20px;
+    }
+    .feature h3 {
+      font-size: 2rem;
+      margin-bottom: 0;
+    }
+    .feature p {
+      text-align: center;
+    }
+    .cta {
+      background-color: #4CAF50;
+      color: white;
+      padding: 50px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .cta h2 {
+      margin-bottom: 50px;
+    }
+    .cta button {
+      background-color: white;
+      color: #4CAF50;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1.5rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .cta button:hover {
+      background-color: #f2f2f2;
+    }
+    .about {
+      padding: 50px 0;
+    }
+    .about h2 {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    .about p {
+      text-align: justify;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="#" class="active">Home</a>
+    <a href="#features">Features</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="jumbotron">
+    <h1>Welcome to Smart Doorlock</h1>
+    <p>The ultimate solution for your home security</p>
+  </div>
+  <div class="features" id="features">
+    <h2>Features</h2>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 feature">
+          <img src="https://images.unsplash.com/photo-1556228724-9c5c3ccb31f2" alt="Feature 1">
+          <h3>Keyless Entry</h3>
+          <p>No more lost keys or forgotten combinations. Our smart doorlock uses advanced biometric technology to grant access only to authorized users.</p>
+        </div>
+        <div class="col-md-4 feature">
+          <img src="https://images.unsplash.com/photo-1556228724-9c5c3ccb31f2" alt="Feature 2">
+          <h3>Remote Access</h3>
+          <p>Control your doorlock from anywhere in the world using our mobile app. Grant access to guests or service providers with just a few taps.</p>
+        </div>
+        <div class="col-md-4 feature">
+          <img src="https://images.unsplash.com/photo-1556228724-9c5c3ccb31f2" alt="Feature 3">
+          <h3>Real-time Monitoring</h3>
+          <p>Get instant notifications on your phone whenever someone enters or exits your home. Keep track of who's coming and going at all times.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cta">
+    <h2>Ready to secure your home?</h2>
+    <button>Get Started</button>
+  </div>
+  <div class="about" id="about">
+    <h2>About Us</h2>
+    <p>Smart Doorlock is a leading provider of home security solutions. Our mission is to make homes safer and more convenient for everyone. With our advanced technology and user-friendly interface, we're changing the way people think about home security. Try Smart Doorlock today and experience the peace of mind that comes with knowing your home is always protected.</p>
+  </div>
+</body>
+</html>
