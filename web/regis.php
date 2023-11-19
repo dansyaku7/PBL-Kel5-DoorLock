@@ -30,7 +30,7 @@
     
 
         <div class="right">
-            <img src="IoT-Smart-Lock-Vulnerability.jpg" alt="Smart Door Lock Image">
+            <img src="Fotoindex.jpeg" alt="Smart Door Lock Image">
         </div>
     </div>
 </body>
