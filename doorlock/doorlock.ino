@@ -1,17 +1,19 @@
 #include <ESP8266WiFi.h>
 #include <SPI.h>
 #include <MFRC522.h>
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
 
 #define SS_PIN D4
 #define RST_PIN D3
-#define LED_G D1
-#define LED_R D2
+#define LED_G D0
 #define RELAY D0
 #define BUZZER D8
 #define ACCESS_DELAY 2000
 #define DENIED_DELAY 1000
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);
+LiquidCrystal_I2C lcd(0x27, 16, 2); // Sesuaikan alamat I2C dan ukuran LCD jika diperlukan
 
 struct AuthorizedCard {
   String uid;
@@ -19,7 +21,7 @@ struct AuthorizedCard {
 };
 
 AuthorizedCard authorizedCards[3] = {
-  {"5B 4D 48 21", "Kelompok 5"},
+  {"5B 4D 48 21", "Kelompok 5 PBL"},
   {"05 8A 75 35 6D C1 00", "Irfan"},
   {"AD DE ED A5", "New User"}  // UID dan nama baru
 };
@@ -29,17 +31,32 @@ void setup() {
   SPI.begin();
   mfrc522.PCD_Init();
   pinMode(LED_G, OUTPUT);
-  pinMode(LED_R, OUTPUT);
   pinMode(RELAY, OUTPUT);
   pinMode(BUZZER, OUTPUT);
   digitalWrite(BUZZER, LOW);
   digitalWrite(RELAY, HIGH);
+
+  lcd.init();
+  lcd.backlight();
+  lcd.setCursor(0, 0);
+  lcd.print("Tap Your Card");
+
   Serial.println("Put your card to the reader...");
   Serial.println();
 }
 
 void loop() {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Tap Your Card...");
+  lcd.setCursor(0, 1);
+  lcd.print("Status : Lock");
+
   if (!mfrc522.PICC_IsNewCardPresent()) {
+    digitalWrite(RELAY, HIGH);
+    digitalWrite(LED_G, LOW);
+    digitalWrite(BUZZER, LOW);  // Tidak ada bunyi ketika tidak ada kartu yang terdeteksi
+    delay(500);  // Delay untuk menghindari berkedip saat terus-menerus memeriksa kartu
     return;
   }
 
@@ -47,52 +64,55 @@ void loop() {
     return;
   }
 
-  Serial.print("UID tag :");
   String content = "";
 
   for (byte i = 0; i < mfrc522.uid.size; i++) {
-    Serial.print(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " ");
-    Serial.print(mfrc522.uid.uidByte[i], HEX);
     content.concat(String(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " "));
     content.concat(String(mfrc522.uid.uidByte[i], HEX));
   }
-
-  Serial.println();
-  Serial.print("User : ");
   content.toUpperCase();
 
-  // Periksa apakah UID terdapat dalam array kartu yang diotorisasi
   bool isAuthorized = false;
+  String sanitizedContent = content.substring(1);  // Hapus karakter pertama (spasi)
+
   for (int i = 0; i < sizeof(authorizedCards) / sizeof(authorizedCards[0]); i++) {
-    if (content.substring(1) == authorizedCards[i].uid) {
+    if (sanitizedContent == authorizedCards[i].uid) {
       isAuthorized = true;
-      Serial.println("Authorized access for " + authorizedCards[i].name);
-      Serial.println();
-      delay(200);
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print(authorizedCards[i].name);
+      lcd.setCursor(0, 1);
+      lcd.print("Status : Open");
       digitalWrite(RELAY, LOW);
       digitalWrite(BUZZER, HIGH);
-      delay(250); // Buzzer menyala selama 1 detik
-      digitalWrite(BUZZER, LOW);
+      delay(250);
+      digitalWrite(BUZZER, LOW);  // Tidak ada bunyi setelah akses
       digitalWrite(LED_G, HIGH);
+
       delay(ACCESS_DELAY);
+
       digitalWrite(RELAY, HIGH);
       digitalWrite(LED_G, LOW);
+      lcd.clear();
       break;  // Keluar dari loop jika akses diotorisasi
     }
   }
 
-  // Jika UID tidak terdapat dalam array yang diotorisasi
   if (!isAuthorized) {
-    Serial.println("Access denied");
-    digitalWrite(LED_R, HIGH);
-    for (int i = 0; i < 2; i++) {
+    // Kartu tidak diotorisasi
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Access Denied");
+    lcd.setCursor(0, 1);
+    lcd.print("No Registered ID");
+    for (int j = 0; j < 2; j++) {
       digitalWrite(BUZZER, HIGH);
-      delay(500); // Buzzer menyala selama 100 milidetik
+      delay(500);
       digitalWrite(BUZZER, LOW);
-      delay(100); // Delay antara bunyi buzzer
+      delay(100);
     }
+
     delay(DENIED_DELAY);
     digitalWrite(BUZZER, LOW);
-    digitalWrite(LED_R, LOW);
   }
 }
