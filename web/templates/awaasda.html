@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Utama</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            padding: 10px;
+            text-align: right;
+            color: #fff;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .login-register-btn {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="login.html" class="login-register-btn">Login</a>
+        <a href="register.html" class="login-register-btn">Register</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </header>
+
+    <main>
+        <h1>Selamat Datang di Halaman Utama</h1>
+        <p>Ini adalah tampilan halaman utama dengan tombol login dan register.</p>
+    </main>
+</body>
+
+</html>

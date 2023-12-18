@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background-color: #333;
+            padding: 10px;
+            color: #fff;
+            width: 100%;
+            text-align: center;
+        }
+
+        main {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 20px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .left-section {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        .right-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        p {
+            color: #555;
+            font-size: 18px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .welcome-message {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+
+        .login-btn, .register-btn, .logout-btn, .view-profile-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .login-btn {
+            background-color: #4CAF50;
+            color: #fff;
+            margin-right: 10px;
+        }
+
+        .register-btn {
+            background-color: #2196F3;
+            color: #fff;
+        }
+
+        .logout-btn {
+            background-color: #FF5722;
+            color: #fff;
+        }
+
+        .view-profile-btn {
+            background-color: #FF9800;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Welcome to Smart Door Lock</h1>
+    </header>
+
+    <main>
+        <div class="left-section">
+            <h2>Smart Door Lock</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Proin auctor justo nec metus ultricies, vel bibendum arcu ullamcorper.
+                Mauris vel dui ac metus fermentum sollicitudin vitae id ligula.
+            </p>
+        </div>
+
+        <div class="right-section">
+            {% if user %}
+                <div class="welcome-message">Hello, {{ user.full_name }}!</div>
+                <a href="/profile" class="view-profile-btn">View Profile</a>
+                <a href="/logout" class="logout-btn">Logout</a>
+            {% else %}
+                <p>Please <a href="/login" class="login-btn">login</a> or <a href="/register" class="register-btn">register</a>.</p>
+            {% endif %}
+        </div>
+    </main>
+</body>
+
+</html>
