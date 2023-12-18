@@ -73,7 +73,9 @@
 
     <main>
         <h2>{{ user.full_name }}'s Profile</h2>
+        <p>User ID: {{ user.id }}</p>
         <p>Email: {{ user.email }}</p>
+        <p>Card UID: {{ user.card_logs[-1].card_uid if user.card_logs else 'N/A' }}</p>
         <!-- Add additional user information as needed -->
 
         <a href="/logout" class="logout-btn">Logout</a>
