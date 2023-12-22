@@ -15,6 +15,9 @@
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 LiquidCrystal_I2C lcd(0x27, 16, 2); // Sesuaikan alamat I2C dan ukuran LCD jika diperlukan
 
+const char* ssid = "Queensa";      // Ganti dengan nama WiFi Anda
+const char* password = "Mahira101010";  // Ganti dengan kata sandi WiFi Anda
+
 struct AuthorizedCard {
   String uid;
   String name;
@@ -28,6 +31,17 @@ AuthorizedCard authorizedCards[3] = {
 
 void setup() {
   Serial.begin(9600);
+  WiFi.begin(ssid, password);  // Mencoba terhubung ke WiFi
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println("Connecting to WiFi...");
+  }
+
+  Serial.println("Connected to WiFi");
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.localIP());
+
   SPI.begin();
   mfrc522.PCD_Init();
   pinMode(LED_G, OUTPUT);

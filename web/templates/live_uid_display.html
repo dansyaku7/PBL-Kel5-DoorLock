@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live UID Display</title>
+</head>
+<body>
+
+    <h2>Live UID Display</h2>
+    <div id="uidContainer"></div>
+    
+    <button onclick="resetUID()">Reset UID</button>
+
+    <script>
+        // Fungsi untuk memperbarui UID di halaman web
+        function updateUID(uid) {
+            // Membuat elemen paragraf baru
+            var para = document.createElement("p");
+            // Menambahkan teks UID ke elemen paragraf
+            var node = document.createTextNode("Detected UID: " + uid);
+            para.appendChild(node);
+
+            // Mengambil elemen kontainer UID
+            var uidContainer = document.getElementById("uidContainer");
+            // Menghapus semua elemen anak (UID sebelumnya)
+            while (uidContainer.firstChild) {
+                uidContainer.removeChild(uidContainer.firstChild);
+            }
+
+            // Menambahkan elemen paragraf dengan UID baru ke kontainer
+            uidContainer.appendChild(para);
+        }
+
+        // Fungsi untuk mereset UID
+        function resetUID() {
+            // Kirim permintaan POST ke server untuk mereset UID
+            fetch('/reset_uid', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('UID reset successful');
+                    // Memanggil fungsi listenForUID setelah mereset UID
+                    listenForUID();
+                })
+                .catch(error => console.error('Error resetting UID:', error));
+        }
+
+        // Fungsi untuk memanggil fungsi updateUID saat menerima data dari server
+        function listenForUID() {
+            // Membuat objek EventSource untuk mendengarkan peristiwa dari server
+            var source = new EventSource("/stream");
+
+            // Menangani peristiwa yang diterima dari server
+            source.onmessage = function (event) {
+                // Mendapatkan UID dari pesan peristiwa
+                var uid = event.data;
+                // Memanggil fungsi updateUID untuk memperbarui halaman web
+                updateUID(uid);
+            };
+        }
+
+        // Memanggil fungsi listenForUID saat halaman dimuat
+        window.onload = listenForUID;
+    </script>
+
+</body>
+</html>

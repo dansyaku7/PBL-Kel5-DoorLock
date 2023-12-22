@@ -1,10 +1,11 @@
+<!-- registration_success.html -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
+    <title>Registration Successful</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -25,17 +26,14 @@
         }
 
         main {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            padding: 20px;
             max-width: 600px;
             width: 100%;
             margin: 20px auto;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
         }
 
         h2 {
@@ -47,38 +45,28 @@
             font-size: 18px;
         }
 
-        .logout-btn {
-            display: inline-block;
-            padding: 10px 20px;
-            margin-top: 20px;
-            font-size: 16px;
-            background-color: #FF5722;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        a {
             text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
         }
 
-        .logout-btn:hover {
-            background-color: #D84315;
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 
 <body>
     <header>
-        <h1>User Profile</h1>
+        <h1>Registration Successful</h1>
     </header>
 
     <main>
-        <h2>{{ user.full_name }}'s Profile</h2>
-        <p>ID User: {{ user.id }}</p>
-        <p>Card UID: {{ user.card_uid }}</p>
-        <p>Email: {{ user.email }}</p>
-        <!-- Add additional user information as needed -->
-
-        <a href="/logout" class="logout-btn">Logout</a>
+        <h2>{{ success }}</h2>
+        <p>What would you like to do next?</p>
+        <a href="{{ url_for('show_register') }}">Register another account</a> |
+        <a href="{{ url_for('show_login') }}">Login</a>
     </main>
 </body>
 

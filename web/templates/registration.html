@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Door Lock - Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <div class="register">
+            <form method="post" action="{{ url_for('register') }}">
+                <h1>Register</h1>
+                <hr>
+                <p>Smart Door Lock</p>
+                <label for="full_name">Full Name</label>
+                <input type="text" id="full_name" name="full_name" placeholder="John Doe">
+
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="john_doe">
+
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" placeholder="example@gmail.com">
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="password">
+
+                <label for="card_uid">Card UID</label>
+                <input type="text" id="card_uid" name="card_uid" placeholder="Tap your card">
+
+                <div id="liveUIDContainer">
+                    <h3>Live UID Display:</h3>
+                    <p id="liveUID"></p>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" onclick="setCardUID()">Register</button>
+                    <button type="reset" value="reset" onclick="resetUID()">Reset</button>
+                    <a href="/login" class="login-btn">Already have an account? Login</a>
+                </div>
+
+    <script>
+        // Fungsi untuk memperbarui UID di halaman registrasi
+        function updateLiveUID(uid) {
+            var liveUIDElement = document.getElementById("liveUID");
+            liveUIDElement.innerText = "Detected UID: " + uid;
+
+            // Setel nilai input card_uid dengan UID yang dideteksi
+            var cardUIDInput = document.getElementById("card_uid");
+            cardUIDInput.value = uid;
+        }
+
+        // Fungsi untuk memanggil fungsi updateLiveUID saat menerima data dari server
+        function listenForLiveUID() {
+            var source = new EventSource("/stream");
+
+            source.onmessage = function (event) {
+                var data = JSON.parse(event.data);
+                var uid = data.uid;
+                updateLiveUID(uid);
+            };
+        }
+
+        // Fungsi untuk mengatur card UID saat tombol Register diklik
+        function setCardUID() {
+            var liveUIDElement = document.getElementById("liveUID");
+            var cardUIDInput = document.getElementById("card_uid");
+
+            // Setel card UID dengan UID yang terakhir dideteksi
+            cardUIDInput.value = liveUIDElement.innerText.replace("Detected UID: ", "");
+        }
+
+        // Fungsi untuk mereset UID dan card UID saat tombol Reset diklik
+        function resetUID() {
+            var liveUIDElement = document.getElementById("liveUID");
+            var cardUIDInput = document.getElementById("card_uid");
+
+            // Reset nilai UID dan card UID
+            liveUIDElement.innerText = "";
+            cardUIDInput.value = "";
+        }
+
+        window.onload = listenForLiveUID;
+    </script>
+</body>
+</html>
