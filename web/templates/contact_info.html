@@ -1,0 +1,61 @@
+<!-- contact_info.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Tempelkan CSS di sini */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            font-size: large;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        strong {
+            font-style: italic;
+            color: #007bff;
+        }
+
+        a {
+            background-color: #2196F3;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            
+        }
+    </style>
+    <title>Contact Information</title>
+</head>
+<body>
+    <h1>Contact Information</h1>
+    <p>Thank you for registering!</p>
+    <p> Please contact us to activate card at the following number :</p>
+    <p>Contact Number:</p>
+    <strong>Whatsapp : 0831312231 </strong>
+    <strong>Email : admindoorlock@gmail.com</strong><br>
+    <a href="{{ url_for('home') }}">Back to Home</a>
+</body>
+</html>

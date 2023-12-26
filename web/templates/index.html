@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Main Page</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -120,15 +120,7 @@
         </div>
 
         <div class="right-section">
-            {% if admin %}
-                <div class="welcome-message">Hello, {{ admin.full_name }} (Admin)!</div>
-                <a href="/profile" class="view-profile-btn">View Profile</a>
-                <a href="/logout" class="logout-btn">Logout</a>
-            {% elif user %}
-                <div class="welcome-message">Hello, {{ user.full_name }} (User)!</div>
-                <a href="/profile" class="view-profile-btn">View Profile</a>
-                <a href="/logout" class="logout-btn">Logout</a>
-            {% endif %}
+                <p>Please <a href="/login" class="login-btn">Login</a>or <a href="/register" class="register-btn">Register</a></p>
         </div>
     </main>
 </body>

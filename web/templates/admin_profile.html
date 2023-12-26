@@ -1,0 +1,132 @@
+<!-- admin_profile.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styletabel.css') }}">
+</head>
+<style>
+    body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background-color: #333;
+            padding: 10px;
+            color: #fff;
+            width: 100%;
+            text-align: center;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column; /* atau row, tergantung tata letak yang diinginkan */
+            align-items: center;
+            padding: 20px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .left-section {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        .right-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .active-btn{
+            background-color: #2196F3;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .button-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            font-size: 16px;
+            background-color: #FF5722;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .button-btn:hover {
+            background-color: #D84315;
+        }
+</style>
+
+<body>
+    <header>
+        <h1>{{ admin.full_name }}'s Profile</h1>
+    </header>
+
+    <main>
+        <div class="left-section">
+            <h2>Registered Users</h2>
+        </div>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Full Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Card UID</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.full_name }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.card_uid }}</td>
+                    <td>{{ 'Activated' if user.card_activated else 'Not Activated' }}</td>
+                    <td>
+                        <form action="{{ url_for('toggle_activation', user_id=user.id) }}" method="post">
+                            <button class="{% if user.card_activated %}deactivate{% else %}activate{% endif %} active-btn" >
+                                {% if user.card_activated %}Deactivate{% else %}Activate{% endif %}
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="left-section">
+        <a href="{{ url_for('home') }}" class="button-btn">Back to Home</a>
+    </div>
+    </main> 
+    
+</body>
+
+</html>

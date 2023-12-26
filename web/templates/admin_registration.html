@@ -1,11 +1,10 @@
+<!-- admin_registration.html -->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Admin Registration</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
     <style>
         body {
@@ -15,7 +14,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            overflow: hidden; /* Menghilangkan scrollbar yang muncul karena blur */
+            /* overflow: hidden; Menghilangkan scrollbar yang muncul karena blur */
         }
 
         .background {
@@ -57,15 +56,11 @@
             margin-top: 10px;
         }
 
-        input {
-            margin-bottom: 10px;
-        }
-
-        /* Styling untuk teks "LOGIN" pada kotak input */
-        .login-text {
+        /* Styling untuk teks "REGISTER" pada kotak input */
+        .register-text {
             font-size: 18px;
             margin-bottom: 10px;
-            color: #333; /* Warna teks LOGIN */
+            color: #333; /* Warna teks REGISTER */
         }
 
         /* Menghilangkan blur */
@@ -73,7 +68,7 @@
             filter: none;
         }
 
-        /* Mengubah warna latar belakang tombol login menjadi biru */
+        /* Mengubah warna latar belakang tombol register menjadi biru */
         input[type="submit"] {
             background-color: #2196F3;
             color: #fff;
@@ -100,27 +95,30 @@
         }
     </style>
 </head>
-
 <body>
     <div class="background"></div>
-    {% if error %}
-    <p style="color: red;">{{ error }}</p>
-    {% endif %}
     <div class="form-container">
-        <form method="post" action="{{ url_for('login') }}">
-            <span class="login-text">LOGIN</span>
-            <label for="username_email">Username or Email:</label>
-            <input type="text" id="username_email" name="username_email" required>
+        <form method="POST" action="{{ url_for('register_admin') }}">
+            <span class="register-text">REGISTER ADMIN</span>
+
+            <label for="full_name">Full Name:</label>
+            <input type="text" id="full_name" name="full_name" required>
+
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
-            <a href="/home"><input type="submit" value="Login"></a>
+
+            <input type="submit" value="Register">
         </form>
 
         <div class="button-container">
-            <a href="/forgot_password" class="forgot-password-btn">Forgot Password</a>
-            <a href="/register" class="sign-up-btn">Sign Up</a>
+           <a href="{{ url_for('index') }}">Back to Home</a> 
         </div>
     </div>
 </body>
-
 </html>
