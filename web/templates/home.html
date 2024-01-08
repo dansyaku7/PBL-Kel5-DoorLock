@@ -17,7 +17,7 @@
         }
 
         header {
-            background-color: #333;
+            background-color: #7d7979;
             padding: 10px;
             color: #fff;
             width: 100%;
@@ -37,6 +37,31 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
+        .feature-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .feature{
+            box-sizing: border-box;
+            width: calc(50% - 20px);
+            padding: 10px;
+            border: 1px solid #efeded;
+            border-radius: 5px;
+            background-color: #efeded;
+        }
+
+        .feature p {
+            text-align: center;
+        }
+
+        .center-section{
+            flex: 1;
+            justify-content: space-between;
+        }
+
+
         .left-section {
             flex: 1;
             padding-right: 20px;
@@ -52,6 +77,12 @@
         h2 {
             color: #333;
         }
+
+        h3{
+            text-align: center;
+            color: #333;
+        }
+
 
         p {
             color: #555;
@@ -113,7 +144,7 @@
 
     <main>
         <div class="left-section">
-            <h2>Smart Door Lock</h2>
+            <h2>Smart Door Lock ( Kunci Pintu Pintar )</h2>
             <p>
                 Tidak seperti pintu umumnya yang menggunakan kunci manual, smart door lock menghadirkan fitur canggih untuk membuka dan menutup pintu melalui Tap Kartu, Keypad, dan Push Button.
             </p>
@@ -122,13 +153,29 @@
         <div class="right-section">
             {% if admin %}
                 <div class="welcome-message">Hello, {{ admin.full_name }} (Admin)!</div>
-                <a href="/profile" class="view-profile-btn">View Profile</a>
+                <a href="/profile" class="view-profile-btn">View Data Users</a>
                 <a href="/logout" class="logout-btn">Logout</a>
             {% elif user %}
                 <div class="welcome-message">Hello, {{ user.full_name }} (User)!</div>
                 <a href="/profile" class="view-profile-btn">View Profile</a>
                 <a href="/logout" class="logout-btn">Logout</a>
             {% endif %}
+        </div>
+    </main>
+
+    <main>
+        <div class="center-section">
+            <h2><center>Features Available</center></h2>
+            <div class="feature-container">
+                <div class="feature">
+                    <h3>Sensor Tap Kartu (RFID)</h3>
+                    <p>RFID reader akan mengirimkan data ke sistem kontrol setiap ada RFID tag yang teridentifikasi, kemudian sistem memproses data tersebut. </p>
+                </div>
+                <div class="feature">
+                    <h3>Buka Kunci Otomatis</h3>
+                    <p>Dengan menggunakan magnetic fitur ini akan berguna pada smart door lock karena digunakan untuk membuka pintu dan menguncinya kembali secara otomatis.</p>
+                </div>
+            </div>
         </div>
     </main>
 </body>

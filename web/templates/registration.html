@@ -22,7 +22,7 @@
             position: fixed;
             width: 100%;
             height: 100%;
-            background: url("{{ url_for('static', filename='network.jpg') }}") no-repeat center center fixed;
+            background: url("{{ url_for('static', filename='backd.jpeg') }}") no-repeat center center fixed;
             background-size: cover;
             background-position: center; /* Menengahkan gambar latar belakang */
             z-index: -1; /* Meletakkan latar belakang di lapisan belakang */
@@ -66,7 +66,7 @@
 
         /* Menghilangkan blur */
         .background {
-            filter: none;
+            filter: blur(5px);
         }
 
         /* Mengubah warna latar belakang tombol register menjadi biru */
@@ -114,24 +114,24 @@
         <form method="post" action="{{ url_for('register') }}">
                 <span class="register-text">REGISTER</span>
                 <label for="full_name">Full Name:</label>
-                <input type="text" id="full_name" name="full_name" required>
+                <input type="text" id="full_name" name="full_name" placeholder="John Doe" required>
 
                 <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
+                <input type="text" id="username" name="username" placeholder="Johndoe" required>
 
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
 
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
 
                 <label for="card_uid">Card UID</label>
-                <input type="text" id="card_uid" name="card_uid" placeholder="Tap your card">
+                <input type="text" id="card_uid" name="card_uid" placeholder="Tap your card" id="liveUID">
 
-                <div id="liveUIDContainer">
-                    <h3>Live UID Display:</h3>
+                <!-- <div id="liveUID">
+                    <h3>Your UID</h3>
                     <p id="liveUID"></p>
-                </div>
+                </div> -->
 
                 <input type="submit" value="Register" onclick="setCardUID()">
                 <input type="reset" value="Reset" onclick="resetUID()">
@@ -144,7 +144,7 @@
         // Fungsi untuk memperbarui UID di halaman registrasi
         function updateLiveUID(uid) {
             var liveUIDElement = document.getElementById("liveUID");
-            liveUIDElement.innerText = "Detected UID: " + uid;
+            // liveUIDElement.innerText = uid;
 
             // Setel nilai input card_uid dengan UID yang dideteksi
             var cardUIDInput = document.getElementById("card_uid");
