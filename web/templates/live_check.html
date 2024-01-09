@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Ownership Check</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylecheck.css') }}">
+    <!-- Tambahkan referensi ke CSS atau Bootstrap jika diperlukan -->
+</head>
+
+<body>
+    <div class="background-image"></div>
+    <h1>Card Ownership Check</h1>
+
+    <div id="cardOwnership">
+        <p>Current Card UID: <span id="currentUid"></span></p>
+        <p>Card Owner: <span id="cardOwner"></span></p>
+    </div>
+
+    <button onclick="backToHome()">Back to Home</button>
+
+    <script>
+        // Menggunakan EventSource untuk streaming data dari server
+        const eventSource = new EventSource("/stream");
+
+        // Mendengarkan peristiwa dari server
+        eventSource.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+
+            // Menampilkan UID kartu saat ini
+            document.getElementById("currentUid").innerText = data.uid;
+
+            // Lakukan permintaan AJAX ke server untuk mendapatkan pemilik kartu berdasarkan UID
+            // Gantilah URL dan endpoint sesuai dengan implementasi server Anda
+            fetch(`/get_card_owner?uid=${data.uid}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Menampilkan pemilik kartu
+                    document.getElementById("cardOwner").innerText = data.owner;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        };
+
+        function backToHome() {
+            // Mengarahkan pengguna kembali ke halaman home
+            window.location.href = '/';
+        }
+    </script>
+</body>
+
+</html>

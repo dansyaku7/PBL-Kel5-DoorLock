@@ -1,0 +1,96 @@
+<!-- rfid.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFID Feature</title>
+    <style>
+        body {
+            font-family: 'Calibri', sans-serif;
+            background-image: url('{{ url_for("static", filename="2222.jpg") }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        body::before {
+            content: ""; /* Elemen pseudo-before untuk efek blur */
+            background: inherit; /* Gunakan background dari elemen utama */
+            filter: blur(2px);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1; /* Mengirimkan ke belakang elemen utama */
+        }
+        .rfid-container {
+            display: flex; /* Use flexbox for layout */
+            align-items: center; /* Center vertically */
+            justify-content: space-between; /* Space between items */
+            padding: 30px 50px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .text-section {
+            flex: 1; /* Take remaining space */
+            text-align: left;
+        }
+
+        .underline-text {
+            text-decoration: underline;
+        }
+
+        .rfid-image {
+            width: 100px;
+            height: 100px;
+            margin-left: 20px; /* Add margin for separation */
+        }
+
+        /* Style for the back to home link */
+        .back-to-home {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #ec3a3a;
+            color: #fffbfb;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-to-home:hover {
+            background-color: #FF5722;
+        }
+
+        p {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="rfid-container">
+        <div class="text-section">
+            <h1>RFID Feature Page</h1>
+            <p>                 RFID atau Pengenal Frekuensi Radio (Radio Frequency Identification) merupakan metode identifikasi dengan menggunakan transponder untuk menyimpan dan mengambil data jarak jauh. Cara kerja teknologi ini adalah dengan mengandalkan gelombang radio atau gelombang elektromagnetik. Tag atau label Radio Frequency Identification memiliki dua bagian. Bagian pertama adalah microchip yang berfungsi untuk menyimpan dan memproses informasi. Bagian kedua adalah antenna untuk menerima dan mengirimkan sinyal.
+
+                Setiap tag atau label Radio Frequency Identification memiliki nomor seri tertentu yang hanya berlaku untuk satu objek. Misalkan sebuah kunci pintu elektronik memiliki sebuah nomor seri, kunci pintu itu hanya dapat digunakan untuk pintu A dan tidak bisa digunakan untuk pintu yang lain. Untuk membaca informasi yang dikodekan pada tag, alat pembaca yang bertugas sebagai penerima sekaligus pemancar gelombang elektromagnetik memancarkan sinyal ke tag menggunakan antena. Ketika sinyal telah dipancarkan maka tag akan merespon dengan memberikan informasi yang tersimpan pada memori banknya.</p>
+
+            <!-- Back to Home link --><br>
+            <a href="{{ url_for('home') }}" class="back-to-home">Back to Home</a>
+        </div>
+
+        <!-- Example: Adding an image -->
+        <img src="{{ url_for('static', filename='RFID.png') }}" alt="Smart Door Lock Image" style="max-width: 100%; height: auto;">
+    </div>
+</body>
+</html>

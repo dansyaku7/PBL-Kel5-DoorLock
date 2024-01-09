@@ -6,22 +6,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <style>
+        @font-face {
+        font-family: 'Merienda-Bold';
+        src: url('/static/fonts/Merienda-Bold.ttf')format('TrueType');
+    /* Add more formats if needed (e.g., woff, woff2) */
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0;
+            font-family: 'Calibri', sans-serif;
+            background-image: url('{{ url_for("static", filename="2222.jpg") }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative; /* Tambahkan position: relative untuk mengizinkan stacking dengan elemen lain */
+        }
+
+        body::before {
+            content: ""; /* Elemen pseudo-before untuk efek blur */
+            background: inherit; /* Gunakan background dari elemen utama */
+            filter: blur(2px);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1; /* Mengirimkan ke belakang elemen utama */
         }
 
         header {
+            font-family: 'Merienda-Bold', sans-serif;
+            font-style: italic;
+            font-size: large;
             background-color: #7d7979;
-            padding: 10px;
+            padding: 0px;
             color: #fff;
             width: 100%;
             text-align: center;
+            margin-bottom: 30px;
         }
 
         main {
@@ -32,7 +58,7 @@
             max-width: 1200px;
             width: 100%;
             margin: 20px auto;
-            background-color: #fff;
+            background-color: #e0e0e0;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -91,7 +117,7 @@
 
         a {
             text-decoration: none;
-            color: #4CAF50;
+            color: #000000;
             font-weight: bold;
         }
 
@@ -100,29 +126,36 @@
         }
 
         .welcome-message {
-            margin-top: 20px;
-            font-size: 24px;
+            font-family: 'Arial', sans-serif;
+            color: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-top: 10px; /* Sesuaikan jarak antara pesan sambutan dan tautan profil */
+            font-size: 15px;
+            font-style: bold;
+            position: absolute;
+            top: 102px;
+            right: 30px;
+            background-color: #e0e0e0;
+            padding: 5px 10px;
+            border-radius: 8px;
         }
 
-        .login-btn, .register-btn, .logout-btn, .view-profile-btn {
+        .view-profile-btn,
+        .logout-btn {
             display: inline-block;
             padding: 10px 20px;
-            margin-top: 20px;
-            font-size: 16px;
+            font-size: 12px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
 
-        .login-btn {
-            background-color: #4CAF50;
+        .view-profile-btn {
+            background-color: #bc973f;
             color: #fff;
-            margin-right: 10px;
-        }
-
-        .register-btn {
-            background-color: #2196F3;
-            color: #fff;
+            margin: 2px;
         }
 
         .logout-btn {
@@ -130,50 +163,61 @@
             color: #fff;
         }
 
-        .view-profile-btn {
-            background-color: #FF9800;
-            color: #fff;
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px; /* Menambahkan border-radius untuk sudut yang lebih halus */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Menambahkan efek bayangan */
+            margin-bottom: 20px; /* Memberikan margin bawah untuk memberikan jarak dengan elemen lain */
+        }
+
+        .underline-text {
+            text-decoration: underline;
         }
     </style>
 </head>
 
 <body>
     <header>
-        <h1>Welcome to Smart Door Lock</h1>
-    </header>
-
+        <h1>Welcome to Smart Door Lock Website</h1>
+    </header><br>
+    {% if admin or user %}
+            <div class="welcome-message">
+                {% if admin %}
+                    {{ admin.full_name }} (Admin)-
+                    <a href="/profile" class="view-profile-btn">View Data Users</a>
+                    <a href="/logout" class="logout-btn">Logout</a>
+                {% elif user %}
+                    {{ user.full_name }} (User)-
+                    <a href="/profile" class="view-profile-btn">View Profile</a>
+                    <a href="/logout" class="logout-btn">Logout</a>
+                {% endif %}
+            </div>
+        {% endif %}
     <main>
         <div class="left-section">
             <h2>Smart Door Lock ( Kunci Pintu Pintar )</h2>
             <p>
                 Tidak seperti pintu umumnya yang menggunakan kunci manual, smart door lock menghadirkan fitur canggih untuk membuka dan menutup pintu melalui Tap Kartu, Keypad, dan Push Button.
+                Smart Door Lock (Kunci Pintu Pintar) merupakan teknologi pintu masuk yang mengintegrasikan kecerdasan buatan dan sistem otomatisasi untuk meningkatkan keamanan dan kenyamanan pengguna. Berbeda 
+                dengan kunci pintu konvensional, Smart Door Lock menggunakan berbagai metode modern untuk membuka dan menutup pintu tanpa memerlukan kunci fisik.
             </p>
         </div>
 
         <div class="right-section">
-            {% if admin %}
-                <div class="welcome-message">Hello, {{ admin.full_name }} (Admin)!</div>
-                <a href="/profile" class="view-profile-btn">View Data Users</a>
-                <a href="/logout" class="logout-btn">Logout</a>
-            {% elif user %}
-                <div class="welcome-message">Hello, {{ user.full_name }} (User)!</div>
-                <a href="/profile" class="view-profile-btn">View Profile</a>
-                <a href="/logout" class="logout-btn">Logout</a>
-            {% endif %}
+            <img src="{{ url_for('static', filename='Digital.png') }}" alt="Smart Door Lock Image" style="max-width: 100%; height: auto;">
         </div>
     </main>
 
     <main>
         <div class="center-section">
-            <h2><center>Features Available</center></h2>
+            <h2><center>Smart Door Lock Features</center></h2>
             <div class="feature-container">
                 <div class="feature">
-                    <h3>Sensor Tap Kartu (RFID)</h3>
-                    <p>RFID reader akan mengirimkan data ke sistem kontrol setiap ada RFID tag yang teridentifikasi, kemudian sistem memproses data tersebut. </p>
+                    <h3> <a href="{{ url_for('rfid_feature') }}" class="underline-text">RFID Card</a></h3>
                 </div>
                 <div class="feature">
-                    <h3>Buka Kunci Otomatis</h3>
-                    <p>Dengan menggunakan magnetic fitur ini akan berguna pada smart door lock karena digunakan untuk membuka pintu dan menguncinya kembali secara otomatis.</p>
+                    <h3><a href="{{ url_for('button_feature') }}" class="underline-text">Push Button</a></h3>
                 </div>
             </div>
         </div>

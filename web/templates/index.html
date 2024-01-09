@@ -6,19 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Page</title>
     <style>
+         @font-face {
+        font-family: 'Merienda-Bold';
+        src: url('/static/fonts/Merienda-Bold.ttf') format('TrueType');
+    /* Add more formats if needed (e.g., woff, woff2) */
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0;
+            font-family: 'Calibri', sans-serif;
+            background-image: url('{{ url_for("static", filename="2222.jpg") }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative; /* Tambahkan position: relative untuk mengizinkan stacking dengan elemen lain */
+        }
+
+        body::before {
+            content: ""; /* Elemen pseudo-before untuk efek blur */
+            background: inherit; /* Gunakan background dari elemen utama */
+            filter: blur(5px);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1; /* Mengirimkan ke belakang elemen utama */
         }
 
         header {
+            font-family: 'Merienda-Bold', sans-serif;
+            font-style: italic;
+            font-size: 20px;
             background-color: #7d7979;
-            padding: 10px;
+            padding: 0px;
             color: #fff;
             width: 100%;
             text-align: center;
@@ -54,8 +79,9 @@
         }
 
         p {
-            color: #555;
-            font-size: 18px;
+            font-family: 'Calibri', sans-serif;
+            color: #000000;
+            font-size: 20px;
         }
 
         a {
@@ -76,7 +102,7 @@
         .login-btn, .register-btn, .logout-btn, .view-profile-btn {
             display: inline-block;
             padding: 10px 20px;
-            margin-top: 20px;
+            margin-top: 0px;
             font-size: 16px;
             border: none;
             border-radius: 5px;
@@ -103,6 +129,21 @@
             background-color: #FF9800;
             color: #fff;
         }
+
+        .lock-message-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 80vh; /* Set tinggi div sesuai tinggi viewport */
+        }
+
+        .lock-message {
+        background-color: #e0e0e0;
+        padding: 30px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 0px 10px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 
@@ -111,22 +152,19 @@
         <h1>Smart Door Lock</h1>
     </header>
 
-    
-
-    <main>  
-        <div class="left-section">
-            <h2>Smart Door Lock ( Kunci Pintu Pintar )</h2>
-            <p>
-                Tidak seperti pintu umumnya yang menggunakan kunci manual, smart door lock menghadirkan fitur canggih untuk membuka dan menutup pintu melalui Tap Kartu, Keypad, dan Push Button.
-            </p>
+    {% if not user and not admin %}
+        <!-- Display a lock message when neither user nor admin is logged in -->
+        <div class="lock-message-container">
+        <div class="lock-message">
+            <p align="center">You are not logged in</p>
+            <p align="center"><a href="/login" class="login-btn">Login</a> or <a href="/register" class="register-btn">Register</a></p>
+            <p align="center">To get access to the home page.</p>
+            <p align="center">___________________________________</p>
+            <p align="center">Check your card here :</p>
+            <p align="center"><a href="/live_check" class="view-profile-btn">Card Check</a></p>
         </div>
-
-        <div class="right-section">
-                <p>Please <a href="/login" class="login-btn">Login</a>or <a href="/register" class="register-btn">Register</a></p>
-        </div>
-    </main> 
-
-    
+        </main>
+    {% endif %}
 </body>
     
 </html>

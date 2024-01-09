@@ -127,6 +127,16 @@ def home():
         return render_template('home.html', admin=admin)
     else:
         return redirect(url_for('login'))
+    
+@app.route('/rfid')
+def rfid_feature():
+    # You can add any necessary logic for the RFID feature here
+    return render_template('rfid.html')
+
+@app.route('/pushbutton')
+def button_feature():
+    # You can add any necessary logic for the RFID feature here
+    return render_template('pushbutton.html')
 
 @app.route('/register_admin', methods=['GET', 'POST'])
 def register_admin():
@@ -173,6 +183,24 @@ def profile():
 
     return render_template('admin_profile.html', admin=admin, users=users)
 
+@app.route('/live_check')
+def live_check():
+    return render_template('live_check.html')
+
+@app.route('/get_card_owner', methods=['GET'])
+def get_card_owner():
+    uid = request.args.get('uid')
+
+    # Cari pemilik kartu berdasarkan UID
+    user = User.query.filter_by(card_uid=uid).first()
+
+    if user:
+        card_owner = user.full_name
+    else:
+        card_owner = 'Unknown'
+
+    return jsonify(owner=card_owner)
+
 @app.route('/admin_profile')
 def admin_profile():
     admin = get_logged_in_admin()
@@ -202,7 +230,7 @@ def toggle_activation(user_id):
 @app.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('home'))
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     with app.app_context():
