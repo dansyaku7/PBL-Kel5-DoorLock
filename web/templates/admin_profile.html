@@ -67,7 +67,7 @@
             padding: 10px 20px;
             margin-top: 20px;
             font-size: 16px;
-            background-color: #FF5722;
+            background-color: #22b9ff;
             color: #fff;
             border: none;
             border-radius: 5px;
@@ -76,8 +76,26 @@
         }
 
         .button-btn:hover {
-            background-color: #D84315;
+            background-color: #22b9ff;
         }
+
+        .delete-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            font-size: 16px;
+            background-color: #ca2828;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .delete-btn:hover {
+            background-color: #ca2828;
+        }
+
 </style>
 
 <body>
@@ -111,9 +129,14 @@
                     <td>{{ user.card_uid }}</td>
                     <td>{{ 'Activated' if user.card_activated else 'Not Activated' }}</td>
                     <td>
-                        <form action="{{ url_for('toggle_activation', user_id=user.id) }}" method="post">
-                            <button class="{% if user.card_activated %}deactivate{% else %}activate{% endif %} active-btn" >
+                        <form action="{{ url_for('toggle_activation', user_id=user.id) }}" method="post" style="display: inline-block;">
+                            <button class= "button-btn">
                                 {% if user.card_activated %}Deactivate{% else %}Activate{% endif %}
+                            </button>
+                        </form>
+                        <form action="{{ url_for('delete_user', user_id=user.id) }}" method="post" style="display: inline-block;">
+                            <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this user?');">
+                                Delete
                             </button>
                         </form>
                     </td>
@@ -123,7 +146,7 @@
     </table>
 
     <div class="left-section">
-        <a href="{{ url_for('home') }}" class="button-btn">Back to Home</a>
+        <a href="{{ url_for('home') }}" class="delete-btn">Back to Home</a>
     </div>
     </main> 
     

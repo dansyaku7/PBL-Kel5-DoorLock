@@ -227,6 +227,19 @@ def toggle_activation(user_id):
 
     return redirect(url_for('admin_profile'))
 
+@app.route('/delete_user/<int:user_id>', methods=['POST'])
+def delete_user(user_id):
+    user = User.query.get(user_id)
+
+    if user:
+        db.session.delete(user)
+        db.session.commit()
+        flash(f'User {user.full_name} has been deleted', 'success')
+    else:
+        flash('User not found', 'error')
+
+    return redirect(url_for('admin_profile'))
+
 @app.route('/logout')
 def logout():
     session.clear()
