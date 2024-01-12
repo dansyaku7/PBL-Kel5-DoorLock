@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Register</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<style>
-        input[type="submit"] {
+    <style>
+        /* Move your CSS styles inside the head */
+        input[type="submit"],
+        input[type="reset"] {
             background-color: #ffffff;
             color: #000000;
             padding: 10px 55px;
@@ -19,16 +19,6 @@
             cursor: pointer;
         }
 
-        input[type="reset"] {
-            background-color: #ffffff;
-            color: #000000;
-            padding: 10px 65px;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-        }
-
-        /* Styling untuk tombol forgot password dan sign up */
         .forgot-password-btn,
         .sign-up-btn {
             background: none;
@@ -44,32 +34,54 @@
         .sign-up-btn:hover {
             color: #0b7dda;
         }
-</style>
+
+        .wrapper {
+            /* Add some styling for the wrapper if needed */
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .input-box {
+            /* Add styling for the input boxes if needed */
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
 
 <body>
 
     <div class="wrapper">
-            <h1>Register</h1>
-            <form method="post" action="{{ url_for('register') }}"></form>
+        <h1>Register</h1>
+        <form method="post" action="{{ url_for('register') }}">
+            <!-- Add labels for accessibility -->
             <div class="input-box">
-                <input type="text" placeholder="Username" required>
+                <label for="full_name">Full Name</label>
+                <input type="text" id="full_name" name="full_name" placeholder="Full Name" required>
                 <i class='bx bxs-user'></i>
             </div>
             <div class="input-box">
-                <input type="text" placeholder="Email" required>
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Username" required>
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-box">
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" placeholder="Email" required>
                 <i class='bx bxs-envelope'></i>
             </div>
             <div class="input-box">
-                <input type="password" placeholder="Password" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Password" required>
                 <i class='bx bxs-lock-alt'></i>
             </div>
             <div class="input-box">
-                <input type="password" placeholder="Confirm Password" required>
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
                 <i class='bx bxs-lock-alt'></i>
             </div>
             <div class="input-box">
-                <label for="card_uid"></label>
-                <input type="text" id="card_uid" name="card_uid" placeholder="Card UID (Tap Your Card)" id="liveUID">
+                <label for="card_uid">Card UID (Tap Your Card)</label>
+                <input type="text" id="card_uid" name="card_uid" placeholder="Card UID" id="liveUID" readonly>
                 <i class='bx bxs-lock-alt'></i>
             </div>
 
@@ -110,7 +122,7 @@
             var cardUIDInput = document.getElementById("card_uid");
 
             // Setel card UID dengan UID yang terakhir dideteksi
-            cardUIDInput.value = liveUIDElement.innerText.replace("Detected UID: ", "");
+            cardUIDInput.value = liveUIDElement.value;
         }
 
         // Fungsi untuk mereset UID dan card UID saat tombol Reset diklik
@@ -125,5 +137,6 @@
         window.onload = listenForLiveUID;
     </script>
 </body>
+
 
 </html>
