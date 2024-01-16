@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, jsonify, Response, redirect, url_for, session, flash
 import time
 import json
+from werkzeug.security import generate_password_hash, check_password_hash
+
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -84,7 +86,7 @@ def register():
     if existing_user:
         return jsonify(success=False, message='Username or email already exists')
 
-    new_user = User(full_name=full_name, username=username, email=email, password=password, card_uid=card_uid)
+    new_user = User(full_name=full_name, username=username, email=email, password=generate_password_hash(password), card_uid=card_uid)
     db.session.add(new_user)
     db.session.commit()
 
@@ -98,18 +100,17 @@ def login():
 
         user = User.query.filter((User.username == username_email) | (User.email == username_email)).first()
 
-        if user and user.password == password:
+        if user and check_password_hash(user.password, password):
             session['user_id'] = user.id
             flash('Login successful', 'success')
             return redirect(url_for('home'))
         
         admin = Admin.query.filter((Admin.username == username_email) | (Admin.email == username_email)).first()
 
-        if admin and admin.password == password:
+        if admin and check_password_hash(admin.password, password):
             session['admin_id'] = admin.id
             flash('Admin login successful', 'success')
             return redirect(url_for('admin_profile')) 
-
         flash('Invalid username or password', 'error')
 
     return render_template('login.html')

@@ -1,0 +1,104 @@
+<!-- profile.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background-color: #7d7979;
+            padding: 10px;
+            color: #fff;
+            width: 100%;
+            text-align: center;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        p {
+            color: #555;
+            font-size: 18px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .status-active {
+            background-color: #4CAF50;
+            color: #fff;
+        }
+
+        .status-inactive {
+            background-color: #ff2222;
+            color: #fff;
+        }
+
+        .button-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            font-size: 16px;
+            background-color: #FF5722;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .button-btn:hover {
+            background-color: #D84315;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Admin Profile</h1>
+    </header>
+
+    <main>
+        <h2>{{ admin.full_name }}'s Profile</h2>
+        <p>ID User: {{ admin.id }}</p>
+        <p>Email: {{ admin.email }}</p>
+
+        <a href="{{ url_for('home') }}" class="button-btn">Back to Home</a>
+    </main>
+</body>
+
+</html>

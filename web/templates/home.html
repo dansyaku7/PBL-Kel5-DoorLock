@@ -185,7 +185,8 @@
             <div class="welcome-message">
                 {% if admin %}
                     {{ admin.full_name }} (Admin)-
-                    <a href="/profile" class="view-profile-btn">View Data Users</a>
+                    <a href="/profile" class="view-profile-btn">View Profile</a>
+                    <a href="/tabel" class="view-profile-btn">View Data Users</a>
                     <a href="/logout" class="logout-btn">Logout</a>
                 {% elif user %}
                     {{ user.full_name }} (User)-
