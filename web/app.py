@@ -151,7 +151,6 @@ def login():
                 return redirect(url_for('home'))
             else:
                 user.increment_failed_login()
-                flash('Invalid credentials. Try again.', 'error')
         
         admin = Admin.query.filter((Admin.username == username_email) | (Admin.email == username_email)).first()
 
