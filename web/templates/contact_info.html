@@ -7,24 +7,38 @@
     <style>
         /* Tempelkan CSS di sini */
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Calibri', sans-serif;
+            background-image: url('{{ url_for("static", filename="2222.jpg") }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
+            position: relative; /* Tambahkan position: relative untuk mengizinkan stacking dengan elemen lain */
+        }
+
+        body::before {
+            content: ""; /* Elemen pseudo-before untuk efek blur */
+            background: inherit; /* Gunakan background dari elemen utama */
+            filter: blur(2px);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1; /* Mengirimkan ke belakang elemen utama */
         }
 
         h1 {
-            color: #333;
+            color: #ffffff;
         }
 
         p {
             font-size: large;
-            color: #555;
+            color: #ffffff;
             margin-bottom: 20px;
         }
 

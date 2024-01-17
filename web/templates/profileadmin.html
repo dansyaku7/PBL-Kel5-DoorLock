@@ -8,14 +8,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0;
+         body {
+            font-family: 'Calibri', sans-serif;
+            background-image: url('{{ url_for("static", filename="2222.jpg") }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative; /* Tambahkan position: relative untuk mengizinkan stacking dengan elemen lain */
+        }
+
+        body::before {
+            content: ""; /* Elemen pseudo-before untuk efek blur */
+            background: inherit; /* Gunakan background dari elemen utama */
+            filter: blur(2px);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1; /* Mengirimkan ke belakang elemen utama */
         }
 
         header {

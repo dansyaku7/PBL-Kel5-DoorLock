@@ -125,7 +125,7 @@
             text-decoration: underline;
         }
 
-        .welcome-message {
+        .header-buttons {
             font-family: 'Arial', sans-serif;
             color: #000000;
             display: flex;
@@ -182,7 +182,7 @@
         <h1>Welcome to Smart Door Lock Website</h1>
     </header><br>
     {% if admin or user %}
-            <div class="welcome-message">
+        <div class="header-buttons">
                 {% if admin %}
                     {{ admin.full_name }} (Admin)-
                     <a href="/profile" class="view-profile-btn">View Profile</a>

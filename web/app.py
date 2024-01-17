@@ -18,6 +18,7 @@ class Admin(db.Model):
     username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
+    role = db.Column(db.String(20), nullable=False, default='admin')
 
     def set_password(self, password):
         self.password = bcrypt.generate_password_hash(password).decode('utf-8')
@@ -33,8 +34,8 @@ class User(db.Model):
     password = db.Column(db.String(100), nullable=False)
     card_uid = db.Column(db.String(255))
     card_activated = db.Column(db.Boolean, default=False)
-    failed_login_attempts = db.Column(db.Integer, default=0)
-    last_failed_login = db.Column(db.DateTime, default=None)
+    failed_attempts = db.Column(db.Integer, default=0)
+    failed_login = db.Column(db.DateTime, default=None)
     role = db.Column(db.String(20), nullable=False, default='user')
 
     def set_password(self, password):
@@ -44,20 +45,20 @@ class User(db.Model):
         return bcrypt.check_password_hash(self.password, password)
 
     def increment_failed_login(self):
-        self.failed_login_attempts += 1
-        self.last_failed_login = datetime.utcnow()
+        self.failed_attempts += 1
+        self.failed_login = datetime.utcnow()
         db.session.commit()
 
     def reset_failed_login(self):
-        self.failed_login_attempts = 0
-        self.last_failed_login = None
+        self.failed_attempts = 0
+        self.failed_login = None
         db.session.commit()
 
     def is_account_locked(self):
-        if self.failed_login_attempts >= 3:
+        if self.failed_attempts >= 3:
             if (
-                self.last_failed_login
-                and datetime.utcnow() - self.last_failed_login < timedelta(minutes=15)
+                self.failed_login
+                and datetime.utcnow() - self.failed_login < timedelta(minutes=15)
             ):
                 return True
             else:
@@ -87,7 +88,8 @@ def get_logged_in_admin():
 def index():
     user = get_logged_in_user()
     admin = get_logged_in_admin()
-    return render_template('index.html', user=user, admin=admin)
+    role = user.role if user else admin.role if admin else None
+    return render_template('index.html', user=user, admin=admin, role=role)
 
 @app.route('/stream')
 def stream():
@@ -155,7 +157,7 @@ def login():
 
         if admin and admin.check_password(password):
             session['admin_id'] = admin.id
-            return redirect(url_for('admin_profile')) 
+            return redirect(url_for('tabel')) 
         else:
             flash('Wrong Username/Password. Try again.')
 
@@ -168,10 +170,10 @@ def home():
 
     if user_id:
         user = User.query.get(user_id)
-        return render_template('home.html', user=user)
+        return render_template('home.html', user=user, role=user.role)
     elif admin_id:
         admin = Admin.query.get(admin_id)
-        return render_template('home.html', admin=admin)
+        return render_template('home.html', admin=admin, role='admin')
     else:
         return redirect(url_for('login'))
     
@@ -204,7 +206,7 @@ def register_admin():
         db.session.commit()
 
         flash('Admin registration successful', 'success')
-        return redirect(url_for('admin_profile'))
+        return redirect(url_for('login'))
     else:
         return render_template('admin_registration.html')
 
@@ -273,7 +275,7 @@ def toggle_activation(user_id):
     else:
         flash('User not found', 'error')
 
-    return redirect(url_for('admin_profile'))
+    return redirect(url_for('tabel'))
 
 @app.route('/delete_user/<int:user_id>', methods=['POST'])
 def delete_user(user_id):
@@ -286,7 +288,7 @@ def delete_user(user_id):
     else:
         flash('User not found', 'error')
 
-    return redirect(url_for('admin_profile'))
+    return redirect(url_for('tabel'))
 
 @app.route('/logout')
 def logout():
