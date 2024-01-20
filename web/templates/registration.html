@@ -53,30 +53,39 @@
     <div class="wrapper">
         <h1>Register</h1>
         <form method="post" action="{{ url_for('register') }}">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <div class="flash-message">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
             <!-- Add labels for accessibility -->
             <div class="input-box">
                 <label for="full_name">Full Name</label>
-                <input type="text" id="full_name" name="full_name" placeholder="Full Name" required>
+                <input type="text" id="full_name" name="full_name" required>
                 <i class='bx bxs-user'></i>
             </div>
             <div class="input-box">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="Username" required>
+                <input type="text" id="username" name="username" required>
                 <i class='bx bxs-user'></i>
             </div>
             <div class="input-box">
                 <label for="email">Email</label>
-                <input type="text" id="email" name="email" placeholder="Email" required>
+                <input type="text" id="email" name="email" required>
                 <i class='bx bxs-envelope'></i>
             </div>
             <div class="input-box">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Password" required>
+                <input type="password" id="password" name="password"required>
                 <i class='bx bxs-lock-alt'></i>
             </div>
             <div class="input-box">
                 <label for="confirm_password">Confirm Password</label>
-                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
+                <input type="password" id="confirm_password" name="confirm_password" required>
                 <i class='bx bxs-lock-alt'></i>
             </div>
             <div class="input-box">

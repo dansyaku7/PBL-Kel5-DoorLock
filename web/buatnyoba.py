@@ -4,13 +4,24 @@ import json
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from datetime import datetime, timedelta
+from flask_mail import Mail, Message
+import secrets
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root@localhost/doorlock_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'your_secret_key'
+app.config['MAIL_SERVER'] = 'smtp.example.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USERNAME'] = 'your_email@example.com'
+app.config['MAIL_PASSWORD'] = 'your_email_password'
+app.config['MAIL_DEFAULT_SENDER'] = 'your_email@example.com'
+
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
+mail = Mail(app)
 
 class Admin(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -37,6 +48,8 @@ class User(db.Model):
     failed_attempts = db.Column(db.Integer, default=0)
     failed_login = db.Column(db.DateTime, default=None)
     role = db.Column(db.String(20), nullable=False, default='user')
+    reset_token = db.Column(db.String(100), nullable=True)
+    reset_token_expiration = db.Column(db.DateTime, nullable=True)
 
     def set_password(self, password):
         self.password = bcrypt.generate_password_hash(password).decode('utf-8')
@@ -65,7 +78,8 @@ class User(db.Model):
                 self.reset_failed_login()
         return False
 
-current_uid =""
+current_uid = ""
+
 def is_user_logged_in():
     return 'user_id' in session
 
@@ -84,12 +98,22 @@ def get_logged_in_admin():
         return Admin.query.get(admin_id)
     return None
 
+def send_reset_email(email, token):
+    reset_link = url_for('reset_password', token=token, _external=True)
+    message = Message('Reset Your Password', recipients=[email])
+    message.body = f'To reset your password, click the following link: {reset_link}'
+    mail.send(message)
+
+def generate_reset_token():
+    return secrets.token_hex(16)
+
 @app.route('/')
 def index():
     user = get_logged_in_user()
     admin = get_logged_in_admin()
     role = user.role if user else admin.role if admin else None
     return render_template('index.html', user=user, admin=admin, role=role)
+
 
 @app.route('/stream')
 def stream():
@@ -219,6 +243,47 @@ def show_register():
 def show_login():
     return render_template('login.html')
 
+@app.route('/forgot_password', methods=['GET', 'POST'])
+def forgot_password():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        user = User.query.filter_by(email=email).first()
+
+        if user:
+            token = generate_reset_token()
+            user.reset_token = token
+            user.reset_token_expiration = datetime.utcnow() + timedelta(minutes=30)
+            db.session.commit()
+
+            send_reset_email(user.email, token)
+
+            flash('Check your email for instructions to reset your password.', 'info')
+            return redirect(url_for('login'))
+
+        flash('Email address not found. Please register for an account.', 'error')
+
+    return render_template('forgot_password.html')
+
+@app.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    user = User.query.filter_by(reset_token=token).first()
+
+    if user and user.reset_token_expiration > datetime.utcnow():
+        if request.method == 'POST':
+            new_password = request.form.get('new_password')
+            user.set_password(new_password)
+            user.reset_token = None
+            user.reset_token_expiration = None
+            db.session.commit()
+
+            flash('Password reset successful. You can now login with your new password.', 'success')
+            return redirect(url_for('login'))
+
+        return render_template('reset_password.html', token=token)
+
+    flash('Invalid or expired reset token. Please try again.', 'error')
+    return redirect(url_for('forgot_password'))
+
 @app.route('/profile')
 def profile():
     user = get_logged_in_user()
@@ -299,4 +364,4 @@ def logout():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
