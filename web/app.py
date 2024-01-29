@@ -119,8 +119,8 @@ def register():
     existing_card_user = User.query.filter_by(card_uid=card_uid).first()
     if existing_card_user:
         flash('Card UID already registered', 'error')
-        return redirect(url_for('register'))  # Ganti 'registration' dengan rute registrasi yang sesuai
-
+        return redirect(url_for('register'))
+    
     existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
     if existing_user:
         flash('Username or email already exists', 'error')
@@ -180,12 +180,10 @@ def home():
     
 @app.route('/rfid')
 def rfid_feature():
-    # You can add any necessary logic for the RFID feature here
     return render_template('rfid.html')
 
 @app.route('/pushbutton')
 def button_feature():
-    # You can add any necessary logic for the RFID feature here
     return render_template('pushbutton.html')
 
 @app.route('/register_admin', methods=['GET', 'POST'])
